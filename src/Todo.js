@@ -21,4 +21,13 @@ export default class Todo {
             this.notes.splice(index, 1);
         }
     }
+
+    setPriority(newPriority) {
+        const validPriorities = ["low", "medium", "high"];
+        if (validPriorities.includes(newPriority)) {
+            this.priority = newPriority;
+        } else {
+            console.error("Invalid priority");
+        }
+    }
 }
