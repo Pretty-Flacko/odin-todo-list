@@ -27,5 +27,8 @@ export default class UI {
         deleteBtn.addEventListener("click", () => {
             todoDiv.remove();
         });
+
+        todoDiv.append(title, dueDate, priority, completeBtn, deleteBtn);
+        this.container.appendChild(todoDiv);
     }
 }
