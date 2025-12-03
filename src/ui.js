@@ -1,34 +1,55 @@
 export default class UI {
-    constructor(container) {
-        this.container = container;
+    constructor(projectsContainer, todosContainer) {
+        this.projectsContainer = projectsContainer;
+        this.todosContainer = todosContainer;
+        this.selectedProject = null;
     }
 
-    renderTodo(todo, projectName) {
-        const todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
-        todoDiv.dataset.project = projectName;
+    renderProjects(projects) {
+        this.projectsContainer.innerHTML = "";
 
-        const title = document.createElement("h3");
-        title.textContent = todo.title;
-        const dueDate = document.createElement("span");
-        dueDate.textContent = todo.dueDate;
-
-        const priority = document.createElement("span");
-        priority.textContent = todo.priority;
-
-        const completeBtn = document.createElement("button");
-        completeBtn.textContent = todo.completed ? "Undo" : "Complete";
-        completeBtn.addEventListener("click", () => {
-            todo.toggleComplete();
+        projects.forEach((project, index) => {
+            const projectDiv = document.createElement("div");
+            projectDiv.classList.add("project");
+            projectDiv.textContent = project.name;
+            projectDiv.addEventListener("click", () => {
+                this.selectProject(index, projects);
+            });
+            this.projectsContainer.appendChild(projectDiv);
         });
+    }
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete";
-        deleteBtn.addEventListener("click", () => {
-            todoDiv.remove();
+    selectProject(index, projects) {
+        this.selectedProject = index;
+        this.renderTodos(projects[index]);
+    }
+
+    renderTodos(project) {
+        this.todosContainer.innerHTML = "";
+
+        const title = document.createElement("h2");
+        title.textContent = project.name;
+        this.todosContainer.appendChild(title);
+
+        project.todos.forEach(todo => {
+            const todoDiv = document.createElement("div");
+            todoDiv.classList.add("todo");
+
+            const todoTitle = document.createElement("h3");
+            todoTitle.textContent = todo.title;
+
+            const todoDesc = document.createElement("p");
+            todoDesc.textContent = todo.description;
+
+            const todoNotes = document.createElement("ul");
+            todo.notes.forEach(note => {
+                const li = document.createElement("li");
+                li.textContent = note;
+                todoNotes.appendChild(li);
+            });
+
+            todoDiv.append(todoTitle, todoDesc, todoNotes);
+            this.todosContainer.appendChild(todoDiv);
         });
-
-        todoDiv.append(title, dueDate, priority, completeBtn, deleteBtn);
-        this.container.appendChild(todoDiv);
     }
 }
