@@ -1,5 +1,5 @@
 {
-  "name": "webpack-starter-template",
+  "name": "odin-todo-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pretty-Flacko/webpack-starter-template.git"
+    "url": "git+https://github.com/Pretty-Flacko/odin-todo-list.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Pretty-Flacko/webpack-starter-template/issues"
+    "url": "https://github.com/Pretty-Flacko/odin-todo-list/issues"
   },
-  "homepage": "https://github.com/Pretty-Flacko/webpack-starter-template#readme",
+  "homepage": "https://github.com/Pretty-Flacko/odin-todo-list#readme",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
