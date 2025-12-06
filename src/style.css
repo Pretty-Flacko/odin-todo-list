@@ -72,14 +72,22 @@ main {
     border-bottom: 1px solid #ddd;
     padding: 0.5rem 0;
 }
-.todo h3 {
+.todo-header {
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.todo-header:hover {
+    background-color: #e0e0e0;
+    transform: translateX(3px);
+}
+.todo .todo-header h3 {
     font-size: 1.2rem;
     margin-bottom: 0.3rem;
 }
-.todo p {
+.todo .todo-header p {
     margin-bottom: 0.3rem;
 }
-.todo ul {
+.todo .todo-details ul {
     list-style-type: disc;
     margin-left: 1.5rem;
 }
