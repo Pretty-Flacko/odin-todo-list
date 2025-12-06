@@ -1,7 +1,8 @@
 export default class UI {
-    constructor(projectsContainer, todosContainer) {
+    constructor(projectsContainer, todosContainer, dialog) {
         this.projectsContainer = projectsContainer;
         this.todosContainer = todosContainer;
+        this.dialog = dialog;
         this.selectedProject = null;
     }
 
@@ -47,9 +48,13 @@ export default class UI {
                 li.textContent = note;
                 todoNotes.appendChild(li);
             });
-
             todoDiv.append(todoTitle, todoDesc, todoNotes);
+
             this.todosContainer.appendChild(todoDiv);
         });
+        const newTodoBtn = document.createElement("button");
+        newTodoBtn.textContent = "Add Todo";
+        newTodoBtn.addEventListener("click", () => this.dialog.showModal());
+        this.todosContainer.appendChild(newTodoBtn);
     }
 }

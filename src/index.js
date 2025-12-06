@@ -6,7 +6,8 @@ import UI from "./ui.js";
 const projectsContainer = document.getElementById("projects-container");
 const todosContainer = document.getElementById("todos-container");
 const newProjectBtn = document.getElementById("new-project-btn");
-const ui = new UI(projectsContainer, todosContainer);
+const dialog = document.querySelector("dialog");
+const ui = new UI(projectsContainer, todosContainer, dialog);
 
 const projects = [];
 const defaultProject = new Project("Default");
@@ -24,4 +25,26 @@ newProjectBtn.addEventListener("click", () => {
         projects.push(newProject);
         ui.renderProjects(projects);
     }
+});
+
+document.getElementById("todo-cancel").addEventListener("click", () => {
+    dialog.close();
+});
+document.getElementById("todo-submit").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("todo-title").value.trim();
+    const description = document.getElementById("todo-description").value.trim();
+    const dueDate = document.getElementById("todo-dueDate").value.trim();
+    const priority = document.getElementById("todo-priority").value;
+
+    if (!title) {
+        alert("Title is required!");
+        return;
+    }
+
+    const newTodo = new Todo(title, description, dueDate, priority);
+    projects[ui.selectedProject].addTodo(newTodo);
+    ui.renderTodos(projects[ui.selectedProject]);
+    dialog.close();
 });
