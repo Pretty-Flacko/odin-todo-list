@@ -72,6 +72,15 @@ main {
     border-bottom: 1px solid #ddd;
     padding: 0.5rem 0;
 }
+.priority-low {
+    background-color: #ecf9f1;
+}
+.priority-medium {
+    background-color: #fff5e6;
+}
+.priority-high {
+    background-color: #fdecea;
+}
 .todo-header {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
