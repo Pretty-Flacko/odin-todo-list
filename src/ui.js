@@ -36,8 +36,23 @@ export default class UI {
             const todoDiv = document.createElement("div");
             todoDiv.classList.add("todo");
 
+            // Always visible section
+            const todoHeader = document.createElement("div");
+            todoHeader.classList.add("todo-header");
+
             const todoTitle = document.createElement("h3");
             todoTitle.textContent = todo.title;
+
+            const todoDue = document.createElement("p");
+            todoDue.textContent = todo.dueDate;
+
+            todoHeader.append(todoTitle, todoDue);
+            todoDiv.appendChild(todoHeader);
+
+            // Hidden details
+            const todoDetails = document.createElement("div");
+            todoDetails.classList.add("todo-details");
+            todoDetails.style.display = "none";
 
             const todoDesc = document.createElement("p");
             todoDesc.textContent = todo.description;
@@ -48,10 +63,17 @@ export default class UI {
                 li.textContent = note;
                 todoNotes.appendChild(li);
             });
-            todoDiv.append(todoTitle, todoDesc, todoNotes);
+
+            todoDetails.append(todoDesc, todoNotes);
+            todoDiv.appendChild(todoDetails);
+
+            todoHeader.addEventListener("click", () => {
+                todoDetails.style.display = todoDetails.style.display === "none" ? "block" : "none";
+            });
 
             this.todosContainer.appendChild(todoDiv);
         });
+
         const newTodoBtn = document.createElement("button");
         newTodoBtn.textContent = "Add Todo";
         newTodoBtn.addEventListener("click", () => this.dialog.showModal());
