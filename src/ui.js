@@ -1,3 +1,5 @@
+import { format, parseISO } from "date-fns";
+
 export default class UI {
     constructor(projectsContainer, todosContainer, dialog) {
         this.projectsContainer = projectsContainer;
@@ -44,7 +46,8 @@ export default class UI {
             todoTitle.textContent = todo.title;
 
             const todoDue = document.createElement("p");
-            todoDue.textContent = todo.dueDate;
+            const dueDateObj = parseISO(todo.dueDate);
+            todoDue.textContent = format(dueDateObj, "MMM d, yyyy");
 
             const todoComplete = document.createElement("input");
             todoComplete.type = "checkbox";
@@ -77,7 +80,7 @@ export default class UI {
                 
                 const span = document.createElement("span");
                 span.textContent = item.text;
-                
+
                 li.append(checkbox, span);
                 todoChecklist.appendChild(li);
             });
