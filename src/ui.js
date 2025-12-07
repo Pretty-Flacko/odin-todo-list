@@ -65,11 +65,21 @@ export default class UI {
             const todoDesc = document.createElement("p");
             todoDesc.textContent = todo.description;
 
-            const todoNotes = document.createElement("ul");
-            todo.notes.forEach(note => {
+            const todoChecklist = document.createElement("ul");
+            todo.checklist.forEach(item => {
                 const li = document.createElement("li");
-                li.textContent = note;
-                todoNotes.appendChild(li);
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = item.completed;
+                checkbox.addEventListener("change", () => {
+                    item.completed = checkbox.checked;
+                });
+                
+                const span = document.createElement("span");
+                span.textContent = item.text;
+                
+                li.append(checkbox, span);
+                todoChecklist.appendChild(li);
             });
 
             const todoEditBtn = document.createElement("button");
@@ -93,7 +103,7 @@ export default class UI {
                 this.renderTodos(project);
             });
 
-            todoDetails.append(todoDesc, todoNotes, todoEditBtn, todoRemoveBtn);
+            todoDetails.append(todoDesc, todoChecklist, todoEditBtn, todoRemoveBtn);
             todoDiv.appendChild(todoDetails);
 
             todoHeader.addEventListener("click", () => {

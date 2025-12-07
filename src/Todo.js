@@ -1,10 +1,10 @@
 export default class Todo {
-    constructor(title, description, dueDate, priority = "medium", notes = []) {
+    constructor(title, description, dueDate, priority = "medium", checklist = []) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.notes = notes;
+        this.checklist = checklist;
         this.completed = false;
     }
 
@@ -12,13 +12,19 @@ export default class Todo {
         this.completed = !this.completed;
     }
 
-    addNote(note) {
-        this.notes.push(note);
+    addChecklistItem(checklistItem) {
+        this.checklist.push({ text: checklistItem.trim(), completed: false });
     }
 
-    removeNote(index) {
-        if (index >= 0 && index < this.notes.length) {
-            this.notes.splice(index, 1);
+    toggleChecklistItem(index) {
+        if (this.checklist[index]) {
+            this.checklist[index].completed = !this.checklist[index].completed;
+        }
+    }
+
+    removeChecklistItem(index) {
+        if (index >= 0 && index < this.checklist.length) {
+            this.checklist.splice(index, 1);
         }
     }
 

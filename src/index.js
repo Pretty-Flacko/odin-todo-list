@@ -27,6 +27,26 @@ newProjectBtn.addEventListener("click", () => {
     }
 });
 
+const checklistItemsContainer = document.getElementById("checklist-items");
+const addChecklistBtn = document.getElementById("add-checklist-item");
+
+addChecklistBtn.addEventListener("click", () => {
+    const div = document.createElement("div");
+    div.classList.add("checklist-item");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Checklist item";
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => div.remove());
+
+    div.append(input, removeBtn);
+    checklistItemsContainer.appendChild(div);
+});
+
 document.getElementById("todo-cancel").addEventListener("click", () => {
     dialog.close();
 });
@@ -50,13 +70,27 @@ document.getElementById("todo-submit").addEventListener("click", (e) => {
         t.description = description;
         t.dueDate = dueDate;
         t.priority = priority;
+        t.checklist = [];
+
+        document.querySelectorAll("#checklist-items input").forEach(input => {
+            if (input.value.trim() !== "") {
+                t.addChecklistItem(input.value);
+            }
+        });
 
         ui.editingTodo = null;
     } else {
         const newTodo = new Todo(title, description, dueDate, priority);
+
+        document.querySelectorAll("#checklist-items input").forEach(input => {
+            if (input.value.trim() !== "") {
+                newTodo.addChecklistItem(input.value);
+            }
+        });
+
         projects[ui.selectedProject].addTodo(newTodo);
     }
-    
+
     ui.renderTodos(projects[ui.selectedProject]);
     dialog.close();
 });
