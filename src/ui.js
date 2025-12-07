@@ -32,7 +32,7 @@ export default class UI {
         title.textContent = project.name;
         this.todosContainer.appendChild(title);
 
-        project.todos.forEach(todo => {
+        project.todos.forEach((todo, index) => {
             const todoDiv = document.createElement("div");
             todoDiv.classList.add("todo", `priority-${todo.priority}`);
 
@@ -85,7 +85,15 @@ export default class UI {
                 this.dialog.showModal();
             });
 
-            todoDetails.append(todoDesc, todoNotes, todoEditBtn);
+            const todoRemoveBtn = document.createElement("button");
+            todoRemoveBtn.textContent = "Remove Todo";
+
+            todoRemoveBtn.addEventListener("click", () => {
+                project.removeTodo(index);
+                this.renderTodos(project);
+            });
+
+            todoDetails.append(todoDesc, todoNotes, todoEditBtn, todoRemoveBtn);
             todoDiv.appendChild(todoDetails);
 
             todoHeader.addEventListener("click", () => {
