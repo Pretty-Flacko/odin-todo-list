@@ -64,7 +64,20 @@ export default class UI {
                 todoNotes.appendChild(li);
             });
 
-            todoDetails.append(todoDesc, todoNotes);
+            const todoEditBtn = document.createElement("button");
+            todoEditBtn.textContent = "Edit Todo";
+
+            todoEditBtn.addEventListener("click", () => {
+                document.getElementById("todo-title").value = todo.title;
+                document.getElementById("todo-description").value = todo.description;
+                document.getElementById("todo-dueDate").value = todo.dueDate;
+                document.getElementById("todo-priority").value = todo.priority;
+
+                this.editingTodo = { project, todo };
+                this.dialog.showModal();
+            });
+
+            todoDetails.append(todoDesc, todoNotes, todoEditBtn);
             todoDiv.appendChild(todoDetails);
 
             todoHeader.addEventListener("click", () => {

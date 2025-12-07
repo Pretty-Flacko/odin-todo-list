@@ -43,8 +43,20 @@ document.getElementById("todo-submit").addEventListener("click", (e) => {
         return;
     }
 
-    const newTodo = new Todo(title, description, dueDate, priority);
-    projects[ui.selectedProject].addTodo(newTodo);
+    if (ui.editingTodo) {
+        const t = ui.editingTodo.todo;
+
+        t.title = title;
+        t.description = description;
+        t.dueDate = dueDate;
+        t.priority = priority;
+
+        ui.editingTodo = null;
+    } else {
+        const newTodo = new Todo(title, description, dueDate, priority);
+        projects[ui.selectedProject].addTodo(newTodo);
+    }
+    
     ui.renderTodos(projects[ui.selectedProject]);
     dialog.close();
 });
