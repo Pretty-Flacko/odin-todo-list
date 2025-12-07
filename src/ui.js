@@ -46,7 +46,15 @@ export default class UI {
             const todoDue = document.createElement("p");
             todoDue.textContent = todo.dueDate;
 
-            todoHeader.append(todoTitle, todoDue);
+            const todoComplete = document.createElement("input");
+            todoComplete.type = "checkbox";
+            todoComplete.checked = todo.completed;
+            todoComplete.addEventListener("change", () => {
+                todo.completed = todoComplete.checked;
+                this.renderTodos(project);
+            });
+
+            todoHeader.append(todoTitle, todoDue, todoComplete);
             todoDiv.appendChild(todoHeader);
 
             // Hidden details
