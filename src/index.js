@@ -7,14 +7,45 @@ const projectsContainer = document.getElementById("projects-container");
 const todosContainer = document.getElementById("todos-container");
 const newProjectBtn = document.getElementById("new-project-btn");
 const dialog = document.querySelector("dialog");
-const ui = new UI(projectsContainer, todosContainer, dialog);
+const ui = new UI(projectsContainer, todosContainer, dialog, () => saveProjects(projects));
 
-const projects = [];
-const defaultProject = new Project("Default");
-projects.push(defaultProject);
+function loadProjects() {
+    const data = JSON.parse(localStorage.getItem("projects"));
+    if (!data) return [];
 
-const todo1 = new Todo("Buy groceries", "Milk, eggs, bread", "2025-12-10", "medium");
-defaultProject.addTodo(todo1);
+    return data.map(p => {
+        const project = new Project(p.name);
+
+        p.todos.forEach(t => {
+            const todo = new Todo(
+                t.title,
+                t.description,
+                t.dueDate,
+                t.priority
+            );
+            todo.completed = t.completed;
+            todo.checklist = t.checklist || [];
+
+            project.addTodo(todo);
+        });
+
+        return project;
+    });
+}
+
+function saveProjects(projects) {
+    localStorage.setItem("projects", JSON.stringify(projects))
+}
+
+const projects = loadProjects();
+
+if (projects.length === 0) {
+    const defaultProject = new Project("Default");
+    projects.push(defaultProject);
+    const todo1 = new Todo("Buy groceries", "Milk, eggs, bread", "2025-12-10", "medium");
+    defaultProject.addTodo(todo1);
+    saveProjects(projects);
+}
 
 ui.renderProjects(projects);
 
@@ -23,6 +54,7 @@ newProjectBtn.addEventListener("click", () => {
     if (name && name.trim() !== "") {
         const newProject = new Project(name.trim());
         projects.push(newProject);
+        saveProjects(projects);
         ui.renderProjects(projects);
     }
 });
@@ -92,5 +124,6 @@ document.getElementById("todo-submit").addEventListener("click", (e) => {
     }
 
     ui.renderTodos(projects[ui.selectedProject]);
+    saveProjects(projects);
     dialog.close();
 });

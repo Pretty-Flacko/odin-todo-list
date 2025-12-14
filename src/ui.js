@@ -1,10 +1,11 @@
 import { format, parseISO } from "date-fns";
 
 export default class UI {
-    constructor(projectsContainer, todosContainer, dialog) {
+    constructor(projectsContainer, todosContainer, dialog, onDataChange) {
         this.projectsContainer = projectsContainer;
         this.todosContainer = todosContainer;
         this.dialog = dialog;
+        this.onDataChange = onDataChange;
         this.selectedProject = null;
     }
 
@@ -54,6 +55,7 @@ export default class UI {
             todoComplete.checked = todo.completed;
             todoComplete.addEventListener("change", () => {
                 todo.completed = todoComplete.checked;
+                this.onDataChange();
                 this.renderTodos(project);
             });
 
@@ -76,6 +78,7 @@ export default class UI {
                 checkbox.checked = item.completed;
                 checkbox.addEventListener("change", () => {
                     item.completed = checkbox.checked;
+                    this.onDataChange();
                 });
                 
                 const span = document.createElement("span");
@@ -103,6 +106,7 @@ export default class UI {
 
             todoRemoveBtn.addEventListener("click", () => {
                 project.removeTodo(index);
+                this.onDataChange();
                 this.renderTodos(project);
             });
 
