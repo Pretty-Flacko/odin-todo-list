@@ -1,11 +1,12 @@
 import { format, parseISO } from "date-fns";
 
 export default class UI {
-    constructor(projectsContainer, todosContainer, dialog, onDataChange) {
+    constructor(projectsContainer, todosContainer, dialog, onDataChange, onRemoveProject) {
         this.projectsContainer = projectsContainer;
         this.todosContainer = todosContainer;
         this.dialog = dialog;
         this.onDataChange = onDataChange;
+        this.onRemoveProject = onRemoveProject;
         this.selectedProject = null;
     }
 
@@ -15,10 +16,23 @@ export default class UI {
         projects.forEach((project, index) => {
             const projectDiv = document.createElement("div");
             projectDiv.classList.add("project");
-            projectDiv.textContent = project.name;
+
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = project.name;
+            
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "✕";
+
             projectDiv.addEventListener("click", () => {
                 this.selectProject(index, projects);
             });
+
+            removeBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                this.onRemoveProject(index);
+            });
+
+            projectDiv.append(nameSpan, removeBtn);
             this.projectsContainer.appendChild(projectDiv);
         });
     }

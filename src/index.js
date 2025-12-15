@@ -7,7 +7,12 @@ const projectsContainer = document.getElementById("projects-container");
 const todosContainer = document.getElementById("todos-container");
 const newProjectBtn = document.getElementById("new-project-btn");
 const dialog = document.querySelector("dialog");
-const ui = new UI(projectsContainer, todosContainer, dialog, () => saveProjects(projects));
+const ui = new UI(projectsContainer,
+    todosContainer,
+    dialog,
+    () => saveProjects(projects),
+    removeProject
+);
 
 function loadProjects() {
     const data = JSON.parse(localStorage.getItem("projects"));
@@ -58,6 +63,22 @@ newProjectBtn.addEventListener("click", () => {
         ui.renderProjects(projects);
     }
 });
+
+function removeProject(index) {
+    if (projects.length === 1) {
+        alert("You must have at least one project");
+        return;
+    }
+
+    projects.splice(index, 1);
+
+    if (ui.selectedProject >= projects.length) {
+        ui.selectedProject = projects.length - 1;
+    }
+
+    saveProjects(projects);
+    ui.renderProjects(projects);
+}
 
 const checklistItemsContainer = document.getElementById("checklist-items");
 const addChecklistBtn = document.getElementById("add-checklist-item");

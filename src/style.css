@@ -54,10 +54,24 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .project:hover {
     background-color: #e0e0e0;
     transform: translateX(3px);
+}
+.project button {
+    background: transparent;
+    border: none;
+    color: #d32f2f;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.project button:hover {
+    color: #f44336;
 }
 #todos-container {
     flex: 1;
